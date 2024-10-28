@@ -8,7 +8,7 @@ export const addadmin=async(req,res,next)=>{
     ////email checking
     const isemailexist=await adminModel.findOne({email})
 
-    if(isemailexist) return next(Error("email already exist",400))
+    if(isemailexist) return next(Error("email already exist",{cause: 404}))
 
     //hash password
     const hashpassword=bcrypt.hashSync(password,+process.env.SALT_ROUNDS)    
@@ -27,7 +27,7 @@ export const login=async(req,res,next)=>{
 
     const comparepassword=bcrypt.compareSync(password,admin.password)  
     
-    if(!comparepassword) return next(Error("invalid cradintiales",400));
+    if(!comparepassword) return next(Error("invalid cradintiales",{cause: 404}));
 
     const token=jwt.sign({_id:admin._id,role:admin.role},process.env.JWT_LOGIN_SIGNATURE,{expiresIn:"1d"})
 

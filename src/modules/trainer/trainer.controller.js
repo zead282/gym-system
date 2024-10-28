@@ -40,7 +40,7 @@ export const deletetrainer=async(req,res,next)=>{
 
     ///check on trainer
     const trainerExist=await trainerModel.findById(trainerid);
-    if(!trainerExist) return next(Error("trainer not found",404))
+    if(!trainerExist) return next(Error("trainer not found",{cause: 404}))
 
     const folder_path=`${process.env.MAIN_FOLDER}/trainers/${trainerExist.image.folder_id}` 
     
@@ -69,13 +69,13 @@ export const update_trainer=async(req,res,next)=>{
 
     ///check on trianer
     const trainer=await trainerModel.findById(trainerid)
-    if(!trainer) return next(Error('trainer not found',400))
+    if(!trainer) return next(Error('trainer not found',{cause: 404}))
      
     if(name) trainer.name=name
     if(phoneNumber) trainer.phoneNumber=phoneNumber
     if(specialization) trainer.specialization=specialization
     if(oldpublic_id){
-        if(!req.file) return next(Error('image is requeried',400))
+        if(!req.file) return next(Error('image is requeried',{cause: 404}))
             
         const folder=trainer.image.folder_id
         const newpublic_id=oldpublic_id.split(`${folder}/`)[1]
