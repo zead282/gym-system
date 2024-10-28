@@ -11,8 +11,8 @@ export const intiateapp=(app,express)=>{
     DB_connection()
     
     app.use('/admin',routes.adminrouter)
-
     app.use('/trainer',routes.trainerrouter)
+    app.use('/plans',routes.plansRouter)
     
     app.use(globalresponse)
     app.listen(process.env.PORT,()=>console.log("server is running"))
