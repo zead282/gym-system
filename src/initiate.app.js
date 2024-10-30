@@ -14,6 +14,7 @@ export const intiateapp=(app,express)=>{
     app.use('/trainer',routes.trainerrouter)
     app.use('/plans',routes.plansRouter)
     app.use('/service',routes.servicerouter)
+    app.use('/payment',routes.paymentrouter)
     app.use(globalresponse)
     app.listen(process.env.PORT,()=>console.log("server is running"))
 }
