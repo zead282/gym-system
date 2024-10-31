@@ -1,7 +1,7 @@
 import { authenticate,createOrder,generatePaymentKey, getTransactionsFromPaymob } from "../../payment-handler/payment.js";
 
 import { paymentStatus } from "../../utils/enums.js";
-import { UserModel ,Plans,PaymentModel } from "../../../db/models/index.models.js";
+import { Users ,Plans,PaymentModel } from "../../../db/models/index.models.js";
 import generateUniqueString from "../../utils/generate-unique-str.js";
 export const createpayment=async (req,res,next)=>{ 
 
