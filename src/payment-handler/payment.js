@@ -49,7 +49,7 @@ export const authenticate = async () => {
           first_name:userdata.name,
           street: 'Some Street',
           building: '123',
-          phone_number:userdata.phoneNumber,
+          phone_number:userdata.phone,
           shipping_method: 'PKG',
           postal_code: '12345',
           city: 'Cairo',

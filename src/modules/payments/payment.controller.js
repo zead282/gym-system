@@ -66,7 +66,7 @@ export const webhook=async(req,res,next)=>{
     const {  success, order, txn_response_code} = req.query;
      
 
-     const member_id=generateUniqueString(5)
+     const membershipID=generateUniqueString(5)
      
     // Check if the transaction was successful
     if ((success === true || success === 'true') && txn_response_code=='APPROVED') {
@@ -74,7 +74,7 @@ export const webhook=async(req,res,next)=>{
       const updatePaymentData=await PaymentModel.findOneAndUpdate({transaction_id:order},{
         payment_status:paymentStatus.success},{new:true});
 
-      const userpay= await UserModel.create({plan:updatePaymentData.plan,name:updatePaymentData.name,price:updatePaymentData.price,phoneNumber:updatePaymentData.phoneNumber,member_id})
+      const userpay= await UserModel.create({plan:updatePaymentData.plan,name:updatePaymentData.name,phone:updatePaymentData.phoneNumber,membershipID})
       res.status(200).json({ message: 'paid' }); 
     } else {
       res.status(400).json({ message: 'unpaid' });

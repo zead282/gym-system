@@ -6,7 +6,7 @@ import { validation } from "../../middlewares/validation.middleware.js";
 import { adminSchema } from "./admin.schema.js";
 const router=Router()
 
-router.post('/add',authntication(),validation(adminSchema),expressAsyncHandler(admincontroller.addadmin))
+router.post('/add',authntication(),validation(adminSchema.add_admin),expressAsyncHandler(admincontroller.addadmin))
 
 router.post('/login',expressAsyncHandler(admincontroller.login))
 
