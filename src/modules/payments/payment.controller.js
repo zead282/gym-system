@@ -37,11 +37,9 @@ export const createpayment=async (req,res,next)=>{
 
 
 export const getAllPayments=async (req,res,next)=>{
-  const token = await authenticate();
-  const transactions = await getTransactionsFromPaymob(token);
-
-
-  res.status(200).json({transactions})
+  
+  const payments=await PaymentModel.find({payment_status:paymentStatus.success})
+  res.status(200).json({payments})
 }
 
 
