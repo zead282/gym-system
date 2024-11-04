@@ -9,7 +9,8 @@ export const intiateapp=(app,express)=>{
 
     app.use(cors())
     DB_connection()
-    
+
+    app.use('/',console.log("Welcome to our website!")
     app.use('/admin',routes.adminrouter)
     app.use('/trainer',routes.trainerrouter)
     app.use('/plans',routes.plansRouter)
