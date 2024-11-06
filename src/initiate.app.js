@@ -10,7 +10,7 @@ export const intiateapp=(app,express)=>{
     app.use(cors())
     DB_connection()
 
-    
+    app.get('/',(req,res)=>{res.send('Welcome to gym!')})
     app.use('/admin',routes.adminrouter)
     app.use('/trainer',routes.trainerrouter)
     app.use('/plans',routes.plansRouter)
