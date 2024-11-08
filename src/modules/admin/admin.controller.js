@@ -24,10 +24,7 @@ export const login=async(req,res,next)=>{
 
     const admin=await adminModel.findOne({email})
     if(!admin) return next(Error('invalid cradintiales',404))
-
-    const comparepassword=bcrypt.compareSync(password,admin.password)  
-    
-    if(!comparepassword) return next(Error("invalid cradintiales",{cause: 404}));
+    if(admin.password !== password) return next(Error('invalid cradintiales',404))
 
     const token=jwt.sign({_id:admin._id,role:admin.role},process.env.JWT_LOGIN_SIGNATURE,{expiresIn:"1d"})
 
