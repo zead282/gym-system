@@ -23,9 +23,10 @@ export const login=async(req,res,next)=>{
     const{email,password}=req.body
 
     const admin=await adminModel.findOne({email})
+    console.log(admin);
     if(!admin) return next(Error('invalid cradintiales',404))
     if(admin.password !== password) return next(Error('invalid cradintiales',404))
-
+    
     const token=jwt.sign({_id:admin._id,role:admin.role},process.env.JWT_LOGIN_SIGNATURE,{expiresIn:"1d"})
 
     res.status(200).json({message:"logged in",token})

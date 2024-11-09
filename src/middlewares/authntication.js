@@ -19,9 +19,9 @@ export const authntication=()=>{
             const decoded=jwt.verify(token,process.env.JWT_LOGIN_SIGNATURE)
             
             if(!decoded?._id) return next(Error('invalid token payload'))
-
-            const admin=await adminModel.findOne({_id:decoded._id,role:'admin'})   
-
+            
+            const admin=await adminModel.findOne({_id:decoded._id})   
+            
             if(!admin) return next(Error("admin not found",400))
 
             req.authUser=admin

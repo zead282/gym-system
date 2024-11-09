@@ -6,7 +6,10 @@ export const validation=(schema)=>{
          
         let validationerrors=[]
 
-        for(const key of keys){
+        for(const key in keys){
+            console.log("key:",key);
+            console.log("schema[key]:",schema[key]);
+            
            const result=schema[key]?.validate(req[key],{abortEarly:false})
            if(result?.error){
             validationerrors.push(...result.error.details)

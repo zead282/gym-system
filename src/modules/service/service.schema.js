@@ -14,7 +14,7 @@ export const serviceSchema={
    },
 
    add:{
-    body:Joi.object({title:Joi.string().required()}),
+    body:Joi.object({title:Joi.string().required(),image:Joi.any().required()}),
     headers:generalRules.headers
    }
 
