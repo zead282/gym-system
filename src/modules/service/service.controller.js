@@ -49,12 +49,14 @@ export const delete_service=async(req,res,next)=>{
 export const update_service=async(req,res,next)=>{
 
     const{serviceid}=req.params
-    const{title,oldpublic_id}=req.body
+    const{title}=req.body
 
     const serviceIsExist=await serviceModel.findById(serviceid)
 
     if(!serviceIsExist) return next(Error("service not found",{cause:400}))
 
+    const oldpublic_id=serviceIsExist.image.public_id
+    
     if(title) serviceIsExist.title=title;
     if(oldpublic_id){
         if(!req.file) return next(Error('image is required',{cause:400}))

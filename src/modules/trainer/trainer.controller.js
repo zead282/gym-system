@@ -65,12 +65,13 @@ export const get_all_trainers=async(req,res,next)=>{
 export const update_trainer=async(req,res,next)=>{
     
     const{trainerid}=req.params
-    const{name,phoneNumber,specialization,oldpublic_id}=req.body;
+    const{name,phoneNumber,specialization}=req.body;
 
     ///check on trianer
     const trainer=await trainerModel.findById(trainerid)
     if(!trainer) return next(Error('trainer not found',{cause: 404}))
-     
+     const oldpublic_id=trainer.image.public_id
+
     if(name) trainer.name=name
     if(phoneNumber) trainer.phoneNumber=phoneNumber
     if(specialization) trainer.specialization=specialization

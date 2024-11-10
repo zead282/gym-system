@@ -11,17 +11,18 @@ export const createpayment=async (req,res,next)=>{
     ///check on consultation
     const planiExist=await Plans.findById(planid)
     if(!planiExist) return next(Error("plan not found",404))
-
+      console.log(planiExist);
+      
         
             // 1. Authenticate to get access token
             const price = planiExist.price *10
             const userdata={name,email,phoneNumber,plan}
 
             const token = await authenticate();
-        
+            
             // 2. Create an order
             const orderId = await createOrder(token, price); // amount in cents (e.g., 10000 = 100.00 EGP)
-        
+
             // 3. Generate a payment key
             const paymentKey = await generatePaymentKey(token, orderId, userdata,price);
            
