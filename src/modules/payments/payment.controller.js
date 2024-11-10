@@ -29,7 +29,7 @@ export const createpayment=async (req,res,next)=>{
             // You can now send the payment key to the frontend to use with Paymob's payment gateway    
             const checkOutSessionLink = `https://accept.paymobsolutions.com/api/acceptance/iframes/${process.env.iframsId}?payment_token=${paymentKey}`;
           // save in db 
-          const payment=await PaymentModel.create({plan,name,phoneNumber,email,transaction_id:orderId,price})
+          const payment=await PaymentModel.create({plan,name,phoneNumber,email,transaction_id:orderId,price:planiExist.price})
         
           res.status(200).json({checkOutSession:checkOutSessionLink})
           
