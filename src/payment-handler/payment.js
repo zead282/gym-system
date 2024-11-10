@@ -49,7 +49,7 @@ export const authenticate = async () => {
           first_name:userdata.name,
           street: 'Some Street',
           building: '123',
-          phone_number:userdata.phone,
+          phone_number:userdata.phoneNumber,
           shipping_method: 'PKG',
           postal_code: '12345',
           city: 'Cairo',
@@ -60,8 +60,8 @@ export const authenticate = async () => {
         currency: 'EGP', // Set your currency here
         integration_id:4835002, // Provided by Paymob
       });
-  
-  
+
+
       const paymentKey = response.data.token;
       return paymentKey;
     } catch (error) {
