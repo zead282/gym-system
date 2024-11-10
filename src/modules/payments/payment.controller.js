@@ -73,7 +73,7 @@ export const webhook=async(req,res,next)=>{
       const updatePaymentData=await PaymentModel.findOneAndUpdate({transaction_id:order},{
         payment_status:paymentStatus.success},{new:true});
 
-      const userpay= await Users.create({plan:updatePaymentData.plan,name:updatePaymentData.name,phone:updatePaymentData.phoneNumber,membershipID})
+      const userpay= await Users.create({email:updatePaymentData.email,plan:updatePaymentData.plan,name:updatePaymentData.name,phone:updatePaymentData.phoneNumber,membershipID})
       res.status(200).json({ message: 'paid' }); 
     } else {
       res.status(400).json({ message: 'unpaid' });
