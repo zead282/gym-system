@@ -39,8 +39,8 @@ export const createpayment=async (req,res,next)=>{
 
 export const getAllPayments=async (req,res,next)=>{
   
-  const payments=await PaymentModel.find({payment_status:paymentStatus.success})
-  res.status(200).json({payments})
+  const payments=await PaymentModel.find();
+   res.status(200).json(payments)
 }
 
 
