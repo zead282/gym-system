@@ -1,11 +1,12 @@
 // invoiceService.js
 import PDFDocument from"pdfkit";
 import fs from "fs";
+import { resolve } from "path";
 
 
 function generateInvoice(user, orderDetails) {
   const doc = new PDFDocument();
-  const filePath = `C:/Users/Ahmed/Desktop/Gym-system semi final/src/invoices/${user.membershipID}_invoice.pdf`;
+  const filePath = resolve(__dirname, `../invoices/${user.membershipID}.pdf`);
 
   // Define the path to save the PDF
   doc.pipe(fs.createWriteStream(filePath));
