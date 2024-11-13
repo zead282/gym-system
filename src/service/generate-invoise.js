@@ -60,14 +60,15 @@ async function generateInvoice(user, orderDetails ,membershipID) {
   const doc = new PDFDocument();
   const buffers = [];
 
-  // Collect the PDF content in a buffer
-  doc.on('data', buffers.push.bind(buffers));
-  doc.on('end', async () => {
+  // Collect PDF content in a buffer
+  doc.on("data", (chunk) => buffers.push(chunk));
+  doc.on("end", () => {
     const pdfBuffer = Buffer.concat(buffers);
     // Upload to Cloudinary
-    const result = await cloudinaryConnection().uploader.upload_stream({
+    const result = cloudinaryConnection().uploader.upload_stream({
       resource_type: "raw", // Use "raw" for non-image files like PDFs
       folder: `${process.env.MAIN_FOLDER}/invoices/${folderid}`, 
+      public_id: `${membershipID}_invoice`
     }, (error, result) => {
       if (error) throw error;
       return result;
