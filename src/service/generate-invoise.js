@@ -97,12 +97,13 @@ async function generateInvoice(user, orderDetails, membershipID) {
 
       // Generate PDF content
       doc.fontSize(22).text("Payment Invoice", { align: "center" });
+      
       doc.text(`Date: ${new Date().toLocaleDateString()}`, { align: "right" });
       doc.text("---------------------------------------------------------");
       doc.text(`User: ${user.name}`);
       doc.text(`Email: ${user.email}`);
       doc.text(`Plan: ${user.plan}`);
-      doc.text(`Amount Paid: $${user.price / 10}`);
+      doc.text(`Amount Paid: $${user.price}`);
       doc.text(`Membership ID: ${membershipID}`);
       doc.text("---------------------------------------------------------");
       doc.end(); // Finalize the PDF document

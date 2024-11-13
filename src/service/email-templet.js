@@ -19,11 +19,10 @@ export const emailTemplet = ({subject='',info='',endMessage=''})=>{
 
          <!-- Content Section -->
         <tr>
-        <td style="padding: 20px; background-color: #333333;color: #fff; font-size: 16px; line-height: 1.6;">
+        <td style="padding: 20px; background-color: #333333; color: #fff; font-size: 16px; line-height: 1.6;">
             <h2 style="color: #45ffca; font-size: 20px;">${subject}</h2>
             <p>${info}</p>
-
-            <p> ${endMessage}</p>
+            <p style="color: #fff; "> ${endMessage}</p>
         </td>
         </tr>
 
