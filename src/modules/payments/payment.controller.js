@@ -53,7 +53,7 @@ export const webhook=async(req,res,next)=>{
 
     // If req.body is empty, handle it
     if (!req.query || Object.keys(req.query).length === 0) {
-      next(new ErrorClass('Received an empty webhook payload.', 400,'No data received'));
+      next(new ErrorHandleClass('Received an empty webhook payload.', 400,'No data received'));
     }
 
     // Extract data from the body (if it's a POST with JSON payload)
