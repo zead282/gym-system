@@ -1,4 +1,5 @@
 import { ContactUs } from "../../../db/models/contactUs.model.js"
+import emailTemplet from "../../service/email-templet.js"
 import { sendEmail } from "../../service/send-email.service.js"
 import { ErrorHandleClass } from "../../utils/error-class.utils.js"
 
@@ -13,10 +14,10 @@ export const addContact = async (req, res, next) => {
     //get el data
     const { name, email, phone} = req.body
     //check if this email is exist 
-    const isEmailExist = await ContactUs.findOne({ email })
-    if (isEmailExist) {
-        return next(new ErrorHandleClass('email is already exist', 400))
-    }
+    // const isEmailExist = await ContactUs.findOne({ email })
+    // if (isEmailExist) {
+    //     return next(new ErrorHandleClass('email is already exist', 400))
+    // }
     //prepare  data
     const contact = {
         name,
@@ -28,7 +29,17 @@ export const addContact = async (req, res, next) => {
  
 
     //send email 
-    await sendEmail({from : "gym" , to : email , subject : "we will contact you soon , thank you for your time"  })
+   const isEmailSent = await sendEmail(
+        {
+            from : "gym" ,
+            to : email , 
+            subject : "contact us" ,
+            message : emailTemplet({
+                subject: "contact us message" ,
+                info: `Thank you for reaching out to us. We will contact you as soon as possible😍`
+              })
+        })
+        if(!isEmailSent) return next(new ErrorHandleClass("failed to send email", 500))
 
     //send response
     res.status(201).json({ message: 'contact created', newContact })

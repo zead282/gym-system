@@ -1,26 +1,31 @@
 import nodemailer from "nodemailer"
 
 
-export const sendEmail =async ({to='', subject='' , html=''}) => {
+export const sendEmail =async ({to='', subject='' , message='',attachments=[] }) => {
     const transporter = nodemailer.createTransport({
-       
+        host:"https://gym-system-backend.vercel.app",
         service : 'gmail',
         auth : {
             user : "elsayedshalan64@gmail.com",
             pass : "faimpsmowoevurgg"
         },
+        port:587,
+        secure:false,
         tls : {
             rejectUnauthorized : false
-        }
+        },
+
     })
 
-
-    const info = await transporter.sendMail({
-        from: "gym ",
+    const mailOptions = {
+        from: "gym system",
         to,
         subject,
-        html
-        
-     })
-return info ;
+        html: message,  
+        attachments 
+     }
+     
+
+    const emailInfo = await transporter.sendMail(mailOptions);
+return emailInfo ;
 }

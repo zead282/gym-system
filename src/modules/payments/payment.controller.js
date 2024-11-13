@@ -3,6 +3,9 @@ import { authenticate,createOrder,generatePaymentKey, getTransactionsFromPaymob 
 import { paymentStatus } from "../../utils/enums.js";
 import { Users ,Plans,PaymentModel } from "../../../db/models/index.models.js";
 import generateUniqueString from "../../utils/generate-unique-str.js";
+import generateInvoice from "../../service/generate-invoise.js";
+import { sendEmail } from "../../service/send-email.service.js";
+import emailTemplet from "../../service/email-templet.js";
 export const createpayment=async (req,res,next)=>{ 
 
     const{planid}=req.params
@@ -11,9 +14,7 @@ export const createpayment=async (req,res,next)=>{
     ///check on consultation
     const planiExist=await Plans.findById(planid)
     if(!planiExist) return next(Error("plan not found",404))
-      console.log(planiExist);
-      
-        
+
             // 1. Authenticate to get access token
             const price = planiExist.price *10
             const userdata={name,email,phoneNumber,plan}
@@ -44,13 +45,6 @@ export const getAllPayments=async (req,res,next)=>{
 }
 
 
-// export const webhook = (req, res, next) => {
-//   const data = req.query
-//   console.log(data);
-  
-//   res.status(200).json({message:"Webhook received",data});
-// };
-
 export const webhook=async(req,res,next)=>{
   try {
     // Log the raw body and headers to inspect what you're receiving
@@ -73,7 +67,33 @@ export const webhook=async(req,res,next)=>{
       const updatePaymentData=await PaymentModel.findOneAndUpdate({transaction_id:order},{
         payment_status:paymentStatus.success},{new:true});
 
-      const userpay= await Users.create({email:updatePaymentData.email,plan:updatePaymentData.plan,name:updatePaymentData.name,phone:updatePaymentData.phoneNumber,membershipID})
+
+      // create invoice 
+        const invoice = generateInvoice(updatePaymentData,order,membershipID)
+
+        
+      // send email
+
+      const isEmailSent = await sendEmail({
+        to: updatePaymentData.email,
+        subject: "Payment Confirmation",
+        message: emailTemplet({
+          subject: "Payment Confirmation",
+          info: `Your payment was successful. Your membership ID is: ${membershipID}`,
+          endMessage: "Thank you for choosing us! If you have any questions or need further assistance, feel free to reach out. We're here to support you on your journey.😍",
+        }),
+        attachments:[
+          {
+            filename: `${membershipID}_invoice.pdf`,
+            path: invoice,
+            contentType: "application/pdf"
+          }
+        ]
+      });
+      if(!isEmailSent) return next(new ErrorHandleClass("failed to send email", 500))
+
+      // save user data in user collection  
+      const user = await Users.create({email:updatePaymentData.email,plan:updatePaymentData.plan,name:updatePaymentData.name,phone:updatePaymentData.phoneNumber,membershipID})
       res.status(200).json({ message: 'paid' }); 
     } else {
       res.status(400).json({ message: 'unpaid' });
