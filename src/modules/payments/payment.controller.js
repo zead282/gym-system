@@ -70,7 +70,7 @@ export const webhook=async(req,res,next)=>{
 
 
       // create invoice 
-        const invoice = generateInvoice(updatePaymentData,order,membershipID)
+        const invoice = await generateInvoice(updatePaymentData,order,membershipID)
         console.log(invoice);
         
 
