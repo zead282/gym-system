@@ -6,6 +6,7 @@ import generateUniqueString from "../../utils/generate-unique-str.js";
 import generateInvoice from "../../service/generate-invoise.js";
 import { sendEmail } from "../../service/send-email.service.js";
 import emailTemplet from "../../service/email-templet.js";
+import { ErrorHandleClass } from "../../utils/error-class.utils.js";
 export const createpayment=async (req,res,next)=>{ 
 
     const{planid}=req.params
@@ -94,7 +95,7 @@ export const webhook=async(req,res,next)=>{
 
       // save user data in user collection  
       const user = await Users.create({email:updatePaymentData.email,plan:updatePaymentData.plan,name:updatePaymentData.name,phone:updatePaymentData.phoneNumber,membershipID})
-      res.status(200).json({ message: 'paid' }); 
+      res.status(200).json({ message: 'paid successfully please check your email!' }); 
     } else {
       res.status(400).json({ message: 'unpaid' });
     }
