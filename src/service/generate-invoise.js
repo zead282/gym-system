@@ -103,7 +103,6 @@ async function generateInvoice(user, orderDetails, membershipID) {
       doc.text(`Email: ${user.email}`);
       doc.text(`Plan: ${user.plan}`);
       doc.text(`Amount Paid: $${user.price / 10}`);
-      doc.text(`Order ID: ${orderDetails.id}`);
       doc.text(`Membership ID: ${membershipID}`);
       doc.text("---------------------------------------------------------");
       doc.end(); // Finalize the PDF document
