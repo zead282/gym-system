@@ -14,7 +14,7 @@ async function generateInvoice(user, orderDetails, membershipID) {
     doc.on("end", () => {
       const pdfBuffer = Buffer.concat(buffers);
 
-      // Upload to Cloudinary
+      // Set up Cloudinary upload stream with a writable stream
       const uploadStream = cloudinaryConnection().uploader.upload_stream(
         {
           resource_type: "raw", // For non-image files like PDFs
@@ -30,7 +30,7 @@ async function generateInvoice(user, orderDetails, membershipID) {
         }
       );
 
-      // Pass the PDF buffer to the Cloudinary upload stream
+      // Write buffer to Cloudinary's upload stream and end it
       uploadStream.end(pdfBuffer);
     });
 
@@ -53,5 +53,3 @@ async function generateInvoice(user, orderDetails, membershipID) {
 }
 
 export default generateInvoice;
-
-
